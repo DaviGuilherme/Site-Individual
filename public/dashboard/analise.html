@@ -65,7 +65,7 @@
                     <div class="geral">
                         <div class="fr1Analise">
                             <select id="slcMaquinas" onchange="graficosMedia(this)">
-                                
+                                <option></option>
                             </select>
                             <div class="processos">
                                 <h2>Média de uso de CPU</h2>
@@ -83,6 +83,12 @@
                                 <h2>Média de uso de Disco</h2>
                                 <div class="divGrafico" id="divGraficoDisco">
                                     <canvas class="cnvGrafico" id="graficoDisco"></canvas>
+                                </div>
+                            </div>
+                            <div class="processos">
+                                <h2>Correlação da temperatura com frenquência da CPU</h2>
+                                <div class="divGrafico" id="divGraficoTemperatura">
+                                    <canvas class="cnvGrafico" id="graficoTemperatura"></canvas>
                                 </div>
                             </div>
                         </div>

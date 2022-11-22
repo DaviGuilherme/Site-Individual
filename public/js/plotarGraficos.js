@@ -393,6 +393,16 @@ function graficosMedia(idMaquina) {
                     canvasDisco.setAttribute("id", "graficoDisco");
                     areaDisco.append(canvasDisco);
                 }
+
+                if(nomeSplit == "Tem"){
+                    var areaTemperatura = document.getElementById("divGraficoTemperatura");
+    
+                    document.getElementById("graficoTemperatura").remove();
+                    var canvasDisco = document.createElement("canvas");
+                    canvasDisco.setAttribute("class", "cnvGrafico");
+                    canvasDisco.setAttribute("id", "graficoTemperatura");
+                    areaDisco.append(canvasDisco);
+                }
                 
                 if(nomeSplit == "CPU" || nomeSplit == "RAM"){
 
@@ -447,7 +457,7 @@ function graficosMedia(idMaquina) {
                             config,
                         );
                     }
-                }else{
+                }else if (nomeSplit == "Dis"){
                     const dataMedia = {
                         labels: [
                             'Média Usada do Disco (%)',
@@ -492,6 +502,38 @@ function graficosMedia(idMaquina) {
                         document.getElementById(`graficoDisco`),
                         config,
                     );
+                }else if (nomeSplit == "Tem"){
+                    const dataMedia = {
+                        datasets: [{
+                          label: 'Pico de desempenho',
+                          data: [{
+                            x: 0.5,
+                            y: 5.5
+                          }],
+                          backgroundColor: [
+                                '#4d9e4194',
+                                '#6B6568',
+                            ]
+                        }],
+                      };
+
+                    const config = {
+                        type: 'scatter',
+                        data: dataMedia,
+                        options: {
+                          scales: {
+                            x: {
+                              type: 'linear',
+                              position: 'bottom'
+                            }
+                          }
+                        }
+                      };
+
+                      var graficoMon = new Chart(
+                        document.getElementById(`graficoTemperatura`),
+                        config,
+                    );  
                 }
             }
 
@@ -529,7 +571,7 @@ function buscarInfoMaquina(idMaquina){
 
             })
         }else{
-            console.log("VAI TOMAR NO CUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+            console.log("999999999999999999999999999")
         }
     })
 }
