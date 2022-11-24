@@ -88,6 +88,22 @@ function mediaUsoComponente(req, res){
     })
 }
 
+function correlacaoTempCPU(req, res){
+    var idMaquina = req.params.idMaquina;
+
+    medidaModel.correlacaoTempCPU(idMaquina).then(function (resultado){
+        if(resultado.length > 0){
+            res.status(200).json(resultado);
+        }else{
+            res.status(204).send("Não foi encontrado dados de temperatura e CPU")
+        }
+    }).catch(function (erro){
+        console.log(erro);
+        console.log("Houve um erro ao tentar resgatar os dados da temperatura e CPU! Erro: " + erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 function buscarServidores(req, res) {
 
     var idEmpresa = req.body.idEmpresa;
@@ -134,7 +150,8 @@ module.exports = {
     buscarRegistroTempoReal,
     mediaUsoComponente,
     buscarServidores,
-    infoMaquina
+    infoMaquina,
+    correlacaoTempCPU
     
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal

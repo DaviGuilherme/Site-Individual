@@ -110,6 +110,26 @@ function mediaUsoComponente(){
     return database.executar(query);
 }
 
+// Davi
+function correlacaoTempCPU(idMaquina) {
+    var query = '';
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+
+
+
+        query = `SELECT TOP 30 * FROM CorrelacaoTempCpu WHERE idMaquina = ${idMaquina} ORDER BY idRegistro DESC;`;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        query = `SELECT * FROM CorrelacaoTempCpu WHERE idMaquina = ${idMaquina};`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + query);
+    return database.executar(query);
+}
+
 function infoMaquina(idMaquina){
     var query = '';
 
@@ -196,7 +216,8 @@ module.exports = {
     buscarRegistroTempoReal,
     mediaUsoComponente,
     buscarServidores,
-    infoMaquina
+    infoMaquina,
+    correlacaoTempCPU
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal
 }

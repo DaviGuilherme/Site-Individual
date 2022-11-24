@@ -11,6 +11,11 @@ router.get("/mediaUsoComponente", function(req, res){
     medidaController.mediaUsoComponente(req, res);
 });
 
+// DAVI
+router.get("/correlacaoTempCPU/:idMaquina", function(req, res){
+    medidaController.correlacaoTempCPU(req, res);
+});
+
 router.get("/buscarComponentesMaquina/:idEmpresa/:idMaquina", function (req, res){
     medidaController.buscarComponentesMaquina(req, res);
 });
