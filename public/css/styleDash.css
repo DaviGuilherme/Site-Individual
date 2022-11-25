@@ -332,6 +332,17 @@ h1,h2,h3 {
     width: 100%;
 }
 
+#divGraficoTemperatura{
+    display: flex;
+    height: 85%;
+    width: 100%;
+}
+
+#graficoTemperatura{
+    height: 100%;
+    width: 100%;
+}
+
 /*cofiguração do adduser*/
 
 .container {

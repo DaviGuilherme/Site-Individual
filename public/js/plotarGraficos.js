@@ -424,15 +424,7 @@ function plotarGraficoMedia(retorno, idMaquina) {
         areaDisco.append(canvasDisco);
       }
 
-      if (nomeSplit == "Tem") {
-        var areaTemperatura = document.getElementById("divGraficoTemperatura");
 
-        document.getElementById("graficoTemperatura").remove();
-        var canvasTemperatura = document.createElement("canvas");
-        canvasTemperatura.setAttribute("class", "cnvGrafico");
-        canvasTemperatura.setAttribute("id", "graficoTemperatura");
-        areaTemperatura.append(canvasTemperatura);
-      }
 
       if (nomeSplit == "CPU" || nomeSplit == "RAM") {
         const dataMedia = {
@@ -527,37 +519,6 @@ function plotarGraficoMedia(retorno, idMaquina) {
           document.getElementById(`graficoDisco`),
           config
         );
-      } else if (nomeSplit == "Tem") {
-        // const dataMedia = {
-        //   datasets: [
-        //     {
-        //       label: `Média Registro ${retorno[i].nomeComponente}`,
-        //       data: [
-        //         {
-        //           x: retorno[i].MediaUso,
-        //           y: 50,
-        //         },
-        //       ],
-        //       backgroundColor: ["#4d9e4194", "#6B6568"],
-        //     },
-        //   ],
-        // };
-        // const config = {
-        //   type: "scatter",
-        //   data: dataMedia,
-        //   options: {
-        //     scales: {
-        //       x: {
-        //         type: "linear",
-        //         position: "bottom",
-        //       },
-        //     },
-        //   },
-        // };
-        // var graficoMon = new Chart(
-        //   document.getElementById(`graficoTemperatura`),
-        //   config
-        // );
       }
     }
   }
@@ -578,13 +539,17 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
       var nomeComponente = retorno[i].nomeComponente;
       var nomeSplit = nomeComponente.substring(0, 3);
 
-      if (nomeSplit == "Tem") {
-        console.log(dadosTemp);
-        dadosTemp.push(retorno[i].registro);
-      } else if (nomeSplit == "CPU") {
-        console.log(dadosCpu);
-        dadosCpu.push(retorno[i].registro);
-      }
+      
+        if (nomeSplit == "Tem") {
+          console.log(dadosTemp);
+  
+          dadosTemp.push(retorno[i].registro);
+        } else if (nomeSplit == "CPU") {
+          console.log(dadosCpu);
+          dadosCpu.push(retorno[i].registro);
+        }
+      
+      
     }
   }
   var areaTemperatura = document.getElementById("divGraficoTemperatura");
