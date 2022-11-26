@@ -424,8 +424,6 @@ function plotarGraficoMedia(retorno, idMaquina) {
         areaDisco.append(canvasDisco);
       }
 
-
-
       if (nomeSplit == "CPU" || nomeSplit == "RAM") {
         const dataMedia = {
           labels: ["Média de Uso (%)", "Média não sendo usada (%)"],
@@ -539,17 +537,14 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
       var nomeComponente = retorno[i].nomeComponente;
       var nomeSplit = nomeComponente.substring(0, 3);
 
-      
-        if (nomeSplit == "Tem") {
-          console.log(dadosTemp);
-  
-          dadosTemp.push(retorno[i].registro);
-        } else if (nomeSplit == "CPU") {
-          console.log(dadosCpu);
-          dadosCpu.push(retorno[i].registro);
-        }
-      
-      
+      if (nomeSplit == "Tem") {
+        console.log(dadosTemp);
+
+        dadosTemp.push(retorno[i].registro);
+      } else if (nomeSplit == "CPU") {
+        console.log(dadosCpu);
+        dadosCpu.push(retorno[i].registro);
+      }
     }
   }
   var areaTemperatura = document.getElementById("divGraficoTemperatura");
@@ -561,43 +556,95 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
 
   var dadosCorrelacao = [];
 
+  // Y = AX + B
+  // x = cpu
+  // y = temperatura
+  // n = retorno.lenght
+  // var a = dadosCorrelacao.length *
+
+  // ∑ x (somatória de X)
+  var somatoriaX = 0;
   for (let index = 0; index < dadosCpu.length; index++) {
-    var input = {
-        x: dadosCpu[index],
-        y: dadosTemp[index]
-    }
-    dadosCorrelacao.push(input)
+    somatoriaX += dadosCpu[index]
   }
-  console.log("Dados Correlacao: ")
-  console.log(dadosCorrelacao)
+  console.log("∑ x : " + somatoriaX)
+
+  // ∑ y (somatória de Y)
+  var somatoriaY = 0;
+  for (let index = 0; index < dadosTemp.length; index++) {
+    somatoriaY += dadosTemp[index]
+  }
+  console.log("∑ y : " + somatoriaY)
+
+  // ∑ xy (somatória de XY)
+  var somaXY = somatoriaX * somatoriaY
+  console.log("∑ xy : " + somaXY)
+
+  // ∑ x ** 2 
+  var xQuadrado = 0;
+  for (let index = 0; index < dadosCpu.length; index++) {
+    xQuadrado += (Math.pow(dadosCpu[index],2))
+  }
+  console.log("∑ X ** 2: " + xQuadrado)
+
+  // (∑ x) ** 2
+  var xQuadradoElavadoA2 = xQuadrado ** 2
+  console.log("(∑ X) ** 2: " + xQuadradoElavadoA2)
   
-  const dataTempCPU = {
-    datasets: [
-      {
-        label: `Correlação`,
-        data: dadosCorrelacao,
-        backgroundColor: ["#4d9e4194", "#6B6568"],
-      },
-    ],
-  };
+  // n = quantidade de amaostras
+  // retorno.length
 
-  const config = {
-    type: "scatter",
-    data: dataTempCPU,
-    options: {
-      scales: {
-        x: {
-          type: "linear",
-          position: "bottom",
-        },
-      },
+  // valor de alfa
+  var alfa = ((retorno.length - somaXY) - (somatoriaX * somatoriaY)) / ((retorno.length * xQuadrado) - (xQuadradoElavadoA2))
+
+  console.log("ALFA: PPPPPPPPPP")
+  console.log(alfa)
+
+  // valor de beta
+  var beta = (somatoriaY / retorno.length) - (alfa * (somatoriaX / retorno.length))  
+  console.log("BETA: HHHHHHHHH")
+  console.log(beta)
+
+  // regressão linear
+  var regressao = [];
+
+  var yval = 0
+  // Y = AX + B
+  
+  for (var index = 0; index < dadosCpu.length; index++) {
+    var input = {
+      x: dadosCpu[index],
+      y: dadosTemp[index],
+    };
+    dadosCorrelacao.push(input);
+  }
+  console.log("Dados Correlacao: ");
+  console.log(dadosCorrelacao);
+
+  for (let index = 0; index <= dadosCorrelacao.length; index++) {
+    yval = alfa + beta * index;
+    regressao.push({x: index, y: yval})
+  }
+  console.log("REGRESSÃO: WWWWWWWWWW")
+  console.log(regressao)
+
+  const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
+    data: {
+        datasets: [{
+            type: 'scatter',
+            label: 'Correlação',
+            data: dadosCorrelacao,
+            backgroundColor: ["#4d9e4194", "#6B6568"],
+        }, {
+            type: 'line',
+            label: 'Regressão linear',
+            data: regressao,
+            backgroundColor: 'green'
+        }],
     },
-  };
-
-  var graficoMon = new Chart(
-    document.getElementById(`graficoTemperatura`),
-    config
-  );
+    options: {}
+});
+  
 }
 
 function buscarInfoMaquina(idMaquina) {
