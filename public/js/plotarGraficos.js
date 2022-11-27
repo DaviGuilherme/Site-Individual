@@ -577,7 +577,10 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
   console.log("∑ y : " + somatoriaY)
 
   // ∑ xy (somatória de XY)
-  var somaXY = somatoriaX * somatoriaY
+  var somaXY = 0
+  for(let index = 0; index < dadosTemp.length; index++){
+    somaXY += dadosCpu[index] * dadosTemp[index]
+  }
   console.log("∑ xy : " + somaXY)
 
   // ∑ x ** 2 
@@ -595,14 +598,14 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
   // retorno.length
 
   // valor de beta
-  var beta = (retorno.length - somaXY - somatoriaX * somatoriaY) / (retorno.length * xQuadrado - xQuadradoElavadoA2)
+  var beta = (somaXY - (somatoriaX * somatoriaY / dadosCpu.length)) / (xQuadrado - (somatoriaX ** 2 / dadosCpu.length))
 
-  console.log("ALFA: PPPPPPPPPP")
+  console.log("BETA: PPPPPPPPPP")
   console.log(beta)
 
   // valor de alfa
-  var alfa = (somatoriaY / retorno.length) - (beta * somatoriaX / retorno.length)  
-  console.log("BETA: HHHHHHHHH")
+  var alfa = dadosTemp[0] - beta * dadosCpu[0]
+  console.log("ALFA: HHHHHHHHH")
   console.log(alfa)
 
   
@@ -620,11 +623,14 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
 
   // regressão linear
   var regressao = [];
+
+//   alert("TESTANDO MANIPULAR: " + dadosCorrelacao['x'][3])
   
-  var yval = 0
-  for (let index = 0; index <= dadosCorrelacao.length; index++) {
-    yval = alfa + beta * index ;
-    regressao.push({x: index, y: yval})
+  var yVal = 0
+  for (let index = 0; index < dadosCorrelacao.length; index++) {
+    xVal = dadosCorrelacao[index]
+    yVal = alfa + beta * xVal['x'];
+    regressao.push({x: xVal['x'], y: yVal})
   }
   console.log("REGRESSÃO: WWWWWWWWWW")
   console.log(regressao)
