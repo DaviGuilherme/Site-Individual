@@ -641,12 +641,13 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
             type: 'scatter',
             label: 'Correlação',
             data: dadosCorrelacao,
-            backgroundColor: ["#4d9e4194", "#6B6568"],
+            backgroundColor: ["#6B6568"],
         }, {
             type: 'line',
-            label: 'Regressão linear',
+            label: 'Linha de tendencia',
             data: regressao,
-            backgroundColor: 'green'
+            backgroundColor: 'green',
+            borderColor: 'green'
         }],
     },
     options: {}
