@@ -623,6 +623,8 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
 
   // regressão linear
   var regressao = [];
+  var regressao2 = [];
+
 
 //   alert("TESTANDO MANIPULAR: " + dadosCorrelacao['x'][3])
   
@@ -630,28 +632,48 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
   for (let index = 0; index < dadosCorrelacao.length; index++) {
     xVal = dadosCorrelacao[index]
     yVal = alfa + beta * xVal['x'];
-    regressao.push({x: xVal['x'], y: yVal})
+    regressao.push(yVal.toFixed(0))
+    regressao2.push(xVal['x'])
+
   }
   console.log("REGRESSÃO: WWWWWWWWWW")
   console.log(regressao)
+  console.log(regressao2)
 
-  const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
-    data: {
-        datasets: [{
-            type: 'scatter',
-            label: 'Correlação',
-            data: dadosCorrelacao,
-            backgroundColor: ["#6B6568"],
-        }, {
-            type: 'line',
-            label: 'Linha de tendencia',
-            data: regressao,
-            backgroundColor: 'green',
-            borderColor: 'green'
-        }],
-    },
-    options: {}
-});
+//   const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
+//     data: {
+//         datasets: [{
+//             type: 'line',
+//             label: 'Linha de tendencia',
+//             data: regressao,
+//             backgroundColor: 'green',
+//             borderColor: 'green'
+//         }],
+//     },
+//     options: {}
+// });
+
+const dataTemp = {
+  labels: regressao2,
+  datasets: [{
+    label: 'Linha de tendencia',
+    data: regressao,
+    fill: false,
+    backgroundColor: 'green',
+    borderColor: 'green',
+    tension: 0.1
+  }]
+};
+
+const config2 = {
+  type: 'line',
+  data: dataTemp,
+};
+
+var graficoMon = new Chart(
+  document.getElementById(`graficoTemperatura`),
+  config2
+);
   
 }
 
