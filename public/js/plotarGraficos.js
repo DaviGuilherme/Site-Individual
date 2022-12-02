@@ -622,8 +622,8 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
   console.log(dadosCorrelacao);
 
   // regressão linear
-  var regressao = [];
-  var regressao2 = [];
+  var regressaoY = [];
+  var regressaoX = [];
 
 
 //   alert("TESTANDO MANIPULAR: " + dadosCorrelacao['x'][3])
@@ -632,20 +632,20 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
   for (let index = 0; index < dadosCorrelacao.length; index++) {
     xVal = dadosCorrelacao[index]
     yVal = alfa + beta * xVal['x'];
-    regressao.push(yVal.toFixed(0))
-    regressao2.push(xVal['x'])
+    regressaoY.push(yVal.toFixed(0))
+    regressaoX.push(xVal['x'])
 
   }
   console.log("REGRESSÃO: WWWWWWWWWW")
-  console.log(regressao)
-  console.log(regressao2)
+  console.log(regressaoY)
+  console.log(regressaoX)
 
 //   const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
 //     data: {
 //         datasets: [{
 //             type: 'line',
 //             label: 'Linha de tendencia',
-//             data: regressao,
+//             data: regressaoY,
 //             backgroundColor: 'green',
 //             borderColor: 'green'
 //         }],
@@ -654,10 +654,10 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
 // });
 
 const dataTemp = {
-  labels: regressao2,
+  labels: regressaoX,
   datasets: [{
     label: 'Linha de tendencia',
-    data: regressao,
+    data: regressaoY,
     fill: false,
     backgroundColor: 'green',
     borderColor: 'green',
